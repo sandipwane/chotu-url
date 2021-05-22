@@ -9,15 +9,22 @@ router.get("/", function (_req, res) {
 
 // create a short url
 router.post("/api/shorten", async function (req, res) {
-  const fullUrl = req.body.url;
-  const shortUrl = await helpers.saveShortUrl(fullUrl);
-  const hostName = req.headers.host;
-  res.send({
-    message: "URL shortened successfully",
-    data: {
-      url: `${hostName}/${shortUrl}`,
-    },
-  });
+  try {
+    const fullUrl = req.body.url;
+    const shortUrl = await helpers.saveShortUrl(fullUrl);
+    const hostName = req.headers.host;
+
+    res.send({
+      message: "URL shortened successfully",
+      data: {
+        url: `${hostName}/${shortUrl}`,
+      },
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: error.message,
+    });
+  }
 });
 
 // decode short url and redirect
