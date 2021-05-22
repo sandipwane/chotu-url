@@ -1,28 +1,27 @@
 // write code here
 const { nanoid } = require("nanoid");
+const db = require("../database");
+
 
 const CODE_LENGTH = 6;
-
-const db = [];
 
 function generateShortIdForUrl() {
   return nanoid(CODE_LENGTH);
 }
 
-function saveShortUrl(fullUrl) {
-  const shortUrl = generateShortIdForUrl();
-
-  const doc = db.find((doc) => doc.fullUrl === fullUrl);
+async function saveShortUrl(fullUrl) {
+  const doc = await db.findOne({ fullUrl });
   if (doc) {
     return doc.shortUrl;
   }
-  db.push({ fullUrl, shortUrl });
+  const shortUrl = generateShortIdForUrl();
+  await db.insert({ fullUrl, shortUrl });
 
   return shortUrl;
 }
 
-function getFullUrlByShortUrl(shortUrl) {
-  const doc = db.find((doc) => doc.shortUrl === shortUrl);
+async function getFullUrlByShortUrl(shortUrl) {
+  const doc = await db.findOne({ shortUrl });
   return doc.fullUrl;
 }
 
