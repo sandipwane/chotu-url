@@ -13,11 +13,12 @@ router.post("/api/shorten", async function (req, res) {
     const fullUrl = req.body.url;
     const shortUrl = await helpers.saveShortUrl(fullUrl);
     const hostName = req.headers.host;
-
+    const protocol = req.protocol
+    
     res.send({
       message: "URL shortened successfully",
       data: {
-        url: `${hostName}/${shortUrl}`,
+        url: `${protocol}://${hostName}/${shortUrl}`,
       },
     });
   } catch (error) {
