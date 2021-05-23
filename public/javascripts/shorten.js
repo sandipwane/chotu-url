@@ -16,7 +16,6 @@ $(".btn-shorten").on("click", () => {
       $("#link").html('');
     },
     success(response) {
-      debugger;
       const data = response.data;
       const resultHTML = `<a id="shortUrl"  class="result" target="_blank" href="${data.url}">${data.url}</a>`;
       $("#link").html(resultHTML);
