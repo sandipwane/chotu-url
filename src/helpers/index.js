@@ -11,7 +11,7 @@ function generateShortIdForUrl() {
 
 async function saveShortUrl(fullUrl) {
   if (!isValidURl(fullUrl)) {
-    throw new Error("Invalid URL");
+    throw new Error("Invalid URL, Please try another");
   }
   const doc = await db.findOne({ fullUrl });
   if (doc) {

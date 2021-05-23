@@ -75,6 +75,20 @@ body {
   margin-right: 20px;
 }
 
+.result {
+  margin-top: 22px;
+  display: inline-block;
+}
+
+.btn-copy {
+  margin-top: -11px;
+}
+
+.error-message-container {
+  margin-top: 10px;
+  font-size: medium;
+}
+
 @media (min-width: 768px) {
   .main-container {
     width: 100%;
