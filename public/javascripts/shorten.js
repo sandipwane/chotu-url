@@ -13,6 +13,7 @@ $(".btn-shorten").on("click", () => {
       const errorMessage = xhr.responseJSON.message;
       $(".error-message").html(errorMessage);
       $("#error-message").hide().fadeIn("slow");
+      $("#link").html('');
     },
     success(response) {
       debugger;
