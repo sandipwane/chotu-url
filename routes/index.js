@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const helpers = require("../src/helpers/index");
+const controller = require("../src/controllers");
 
 // Show homepage
 router.get("/", function (_req, res) {
@@ -8,36 +8,9 @@ router.get("/", function (_req, res) {
 });
 
 // create a short url
-router.post("/api/shorten", async function (req, res) {
-  try {
-    const fullUrl = req.body.url;
-    const shortUrl = await helpers.saveShortUrl(fullUrl);
-    const hostName = req.headers.host;
-    const protocol = req.protocol
-    
-    res.send({
-      message: "URL shortened successfully",
-      data: {
-        url: `${protocol}://${hostName}/${shortUrl}`,
-      },
-    });
-  } catch (error) {
-    res.status(400).send({
-      message: error.message,
-    });
-  }
-});
+router.post("/api/shorten", controller.urlShortenController);
 
 // decode short url and redirect
-router.get("/:shortUrl", async function (req, res) {
-  const hostName = req.headers.host;
-  const shortUrl = req.params.shortUrl;
-  const fullUrl = await helpers.getFullUrlByShortUrl(shortUrl);
-  if (!fullUrl) {
-    res.redirect(`${hostName}/`);
-  } else {
-    res.redirect(fullUrl);
-  }
-});
+router.get("/:shortUrl", controller.redirectUrlController);
 
 module.exports = router;
