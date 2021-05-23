@@ -1,6 +1,6 @@
 process.env.NODE_ENV = "test";
 
-const request = require("supertest-as-promised");
+const request = require("supertest");
 const { assert } = require("chai");
 const app = require("../app");
 
@@ -48,6 +48,16 @@ describe("Url", () => {
           assert.equal(responseShortId, storedShortUrl);
           done();
         });
+    });
+  });
+
+  describe("GET /:shortId", () => {
+    it(`It should retrieve the full url using short url`, (done) => {
+      request(app)
+        .get(`/${db[0].shortUrl.split("/").slice(-1)[0]}`)
+        .expect(302)
+        .expect('Location', db[0].fullUrl)
+        .end(done);
     });
   });
 });
