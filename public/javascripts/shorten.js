@@ -1,13 +1,17 @@
 $(".btn-shorten").on("click", () => {
-  $(".error-message").html('');
+  $(".error-message").html("");
+  const inputval = $("#url-field").val();
+  if (!inputval) {
+    return $(".error-message").html("Link is required");
+  }
   $.ajax({
     url: "/api/shorten",
     type: "POST",
     dataType: "JSON",
-    data: { url: $("#url-field").val() },
+    data: { url: inputval },
     error: function (xhr, error) {
       const errorMessage = xhr.responseJSON.message;
-      $(".error-message").html(errorMessage)
+      $(".error-message").html(errorMessage);
       $("#error-message").hide().fadeIn("slow");
     },
     success(response) {
