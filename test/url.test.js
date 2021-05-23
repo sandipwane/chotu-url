@@ -49,6 +49,20 @@ describe("Url", () => {
           done();
         });
     });
+
+    it(`It should not shorten invalid URL`, (done) => {
+      request(app)
+        .post("/api/shorten")
+        .send({
+          url: "bad-url",
+        })
+        .expect(400)
+        .then((res) => {
+          const message = res.body.message;
+          assert.equal(message, "Invalid link, Please try another");
+          done();
+        });
+    });
   });
 
   describe("GET /:shortId", () => {
@@ -56,7 +70,7 @@ describe("Url", () => {
       request(app)
         .get(`/${db[0].shortUrl.split("/").slice(-1)[0]}`)
         .expect(302)
-        .expect('Location', db[0].fullUrl)
+        .expect("Location", db[0].fullUrl)
         .end(done);
     });
   });
